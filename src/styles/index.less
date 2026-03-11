@@ -1,0 +1,70 @@
+:root {
+  --fm-bg: #fcfcf6;
+  --fm-surface: #ffffff;
+  --fm-primary: #e2df46;
+  --fm-text: #2e2e2e;
+  --fm-subtext: #8f8f8f;
+}
+
+body {
+  margin: 0;
+  color: var(--fm-text);
+  background: var(--fm-bg);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'PingFang SC',
+    'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+}
+
+a {
+  color: inherit;
+}
+
+.fm-pagination {
+  display: flex !important;
+  align-items: center;
+  flex-wrap: nowrap !important;
+  gap: 6px;
+
+  .ant-pagination-prev,
+  .ant-pagination-next,
+  .ant-pagination-item,
+  .ant-pagination-jump-prev,
+  .ant-pagination-jump-next,
+  .ant-pagination-options {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    float: none !important;
+    margin-right: 0 !important;
+  }
+
+  .ant-pagination-item,
+  .ant-pagination-prev .ant-pagination-item-link,
+  .ant-pagination-next .ant-pagination-item-link {
+    min-width: 30px;
+    height: 30px;
+    line-height: 28px;
+    border-radius: 999px;
+    border-color: #ececcf;
+    background: #fff;
+    color: #5a5a42;
+  }
+
+  .ant-pagination-item a {
+    color: #5a5a42;
+  }
+
+  .ant-pagination-item-active {
+    border-color: #e2df46;
+    background: #e2df46;
+  }
+
+  .ant-pagination-item-active a {
+    color: #2f2f1f;
+    font-weight: 600;
+  }
+
+  .ant-pagination-disabled .ant-pagination-item-link {
+    color: #b8b8a2;
+  }
+}
+
