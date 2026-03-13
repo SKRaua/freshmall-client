@@ -125,7 +125,9 @@ const getWishThingList = () => {
 }
 
 .mine-infos-view {
-  border: 1px solid #cedce4;
+  border: 1px solid #ececcf;
+  border-radius: 14px;
+  background: #fff;
   height: fit-content;
 
   .info-box {
@@ -151,7 +153,7 @@ const getWishThingList = () => {
     overflow: hidden;
 
     .nick {
-      color: #152844;
+      color: #2f2f2f;
       font-weight: 600;
       font-size: 18px;
       line-height: 24px;
@@ -164,14 +166,14 @@ const getWishThingList = () => {
 
     .age {
       font-size: 12px;
-      color: #6f6f6f;
+      color: #8f8f7a;
       height: 16px;
       line-height: 16px;
       margin-top: 8px;
     }
 
     .give-point {
-      color: #e2df46;
+      color: #d7b52f;
       cursor: pointer;
       float: right;
     }
@@ -199,13 +201,13 @@ const getWishThingList = () => {
     .text {
       height: 16px;
       line-height: 16px;
-      color: #6f6f6f;
+      color: #7d7d67;
     }
 
     .num {
       height: 18px;
       line-height: 18px;
-      color: #152844;
+      color: #2f2f2f;
       font-weight: 600;
       font-size: 14px;
       margin-top: 4px;
@@ -214,22 +216,22 @@ const getWishThingList = () => {
     .split-line {
       width: 1px;
       height: 24px;
-      background: #dae6f9;
+      background: #f0f0dc;
     }
   }
 
   .intro-box {
-    border-top: 1px solid #cedce4;
+    border-top: 1px solid #f0f0dc;
     padding: 16px;
 
     .title {
-      color: #6f6f6f;
+      color: #8a8a74;
       font-size: 12px;
       line-height: 16px;
     }
 
     .intro-content {
-      color: #152844;
+      color: #3a3a2a;
       font-size: 14px;
       line-height: 20px;
       overflow: hidden;
@@ -240,12 +242,12 @@ const getWishThingList = () => {
 
   .create-box {
     cursor: pointer;
-    border-top: 1px solid #cedce4;
+    border-top: 1px solid #f0f0dc;
     padding: 16px;
 
     .title {
       position: relative;
-      color: #152844;
+      color: #3a3a2a;
       font-weight: 600;
       font-size: 14px;
       line-height: 18px;
@@ -269,17 +271,17 @@ const getWishThingList = () => {
       .split-line {
         width: 1px;
         height: 24px;
-        background: #dae6f9;
+        background: #f0f0dc;
       }
     }
   }
 
   .order-box {
-    border-top: 1px solid #cedce4;
+    border-top: 1px solid #f0f0dc;
     padding: 16px;
 
     .title {
-      color: #152844;
+      color: #3a3a2a;
       font-weight: 600;
       font-size: 14px;
       line-height: 18px;
@@ -291,7 +293,7 @@ const getWishThingList = () => {
       padding-left: 16px;
 
       .mine-item {
-        border-top: 1px dashed #cedce4;
+        border-top: 1px dashed #ececcf;
         cursor: pointer;
         height: 48px;
         -webkit-box-align: center;
@@ -305,9 +307,14 @@ const getWishThingList = () => {
         }
 
         span {
-          color: #152844;
+          color: #4b4b38;
           font-size: 14px;
         }
+      }
+
+      .mine-item:hover span {
+        color: #2f2f1f;
+        font-weight: 600;
       }
 
       .mine-item:first-child {
@@ -317,11 +324,11 @@ const getWishThingList = () => {
   }
 
   .setting-box {
-    border-top: 1px solid #cedce4;
+    border-top: 1px solid #f0f0dc;
     padding: 16px;
 
     .title {
-      color: #152844;
+      color: #3a3a2a;
       font-weight: 600;
       font-size: 14px;
       line-height: 18px;
@@ -334,7 +341,7 @@ const getWishThingList = () => {
     }
 
     .mine-item {
-      border-top: 1px dashed #cedce4;
+      border-top: 1px dashed #ececcf;
       cursor: pointer;
       height: 48px;
       -webkit-box-align: center;
@@ -348,9 +355,14 @@ const getWishThingList = () => {
       }
 
       span {
-        color: #152844;
+        color: #4b4b38;
         font-size: 14px;
       }
+    }
+
+    .mine-item:hover span {
+      color: #2f2f1f;
+      font-weight: 600;
     }
 
     .mine-item:first-child {

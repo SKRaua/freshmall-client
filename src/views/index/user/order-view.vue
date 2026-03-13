@@ -23,7 +23,8 @@
                                 cancel-text="否" @confirm="handleCancel(item)">
                                 <button class="cancel-btn">取消订单</button>
                             </a-popconfirm>
-                            <span class="state">{{ statusText(item.viewStatus) }}</span>
+                            <span :class="['state', stateClass(item.viewStatus)]">{{ statusText(item.viewStatus)
+                                }}</span>
                         </div>
                     </header>
 
@@ -89,6 +90,14 @@ const statusText = (status) => {
     return '待发货';
 };
 
+const stateClass = (status) => {
+    if (status === 'toShip') return 'state-to-ship';
+    if (status === 'toReceive') return 'state-to-receive';
+    if (status === 'finished') return 'state-finished';
+    if (status === 'canceled') return 'state-canceled';
+    return 'state-to-ship';
+};
+
 const filteredOrders = computed(() => {
     if (activeTab.value === 'all') {
         return orderData.value;
@@ -122,9 +131,11 @@ const handleDetail = (thingId) => {
 };
 
 const handleCancel = (item) => {
-    cancelUserOrderApi({ id: item.id })
+    cancelUserOrderApi({ id: item.id, userId: userStore.user_id })
         .then(() => {
             message.success('取消成功');
+            item.status = '0';
+            item.viewStatus = 'canceled';
             getOrderList();
         })
         .catch((err) => {
@@ -218,7 +229,22 @@ const handleCancel = (item) => {
 
 .state {
     font-weight: 600;
-    color: #5e6d35;
+}
+
+.state-to-ship {
+    color: #b28a1a;
+}
+
+.state-to-receive {
+    color: #2e8a86;
+}
+
+.state-finished {
+    color: #4f8f3e;
+}
+
+.state-canceled {
+    color: #9a7f7f;
 }
 
 .item-row {

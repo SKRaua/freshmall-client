@@ -23,16 +23,16 @@
                     <h3>{{ item.title }}</h3>
                 </div>
 
-                <div class="cell">¥{{ item.price }}</div>
+                <div class="cell price">¥{{ item.price }}</div>
 
-                <div class="cell">
+                <div class="cell qty">
                     <a-input-number :value="item.count" :min="1" :max="item.repertory || 999"
                         @change="(v) => onCountChange(item, v)" />
                 </div>
 
-                <div class="cell">¥{{ rowAmount(item) }}</div>
+                <div class="cell subtotal">¥{{ rowAmount(item) }}</div>
 
-                <div class="cell">
+                <div class="cell action">
                     <button class="del" @click="onDelete(item)">删除</button>
                 </div>
             </article>
@@ -62,7 +62,9 @@
         <div class="sticky-submit" v-if="cartData.length > 0">
             <div class="sticky-inner">
                 <div class="summary">已选 {{ selectedCount }} 件，合计 <b>¥{{ selectedAmount }}</b></div>
-                <button class="submit" @click="checkout">提交订单</button>
+                <button class="submit" :disabled="submitting" @click="checkout">
+                    {{ submitting ? '提交中...' : '提交订单' }}
+                </button>
             </div>
         </div>
     </div>
@@ -78,6 +80,7 @@ const userStore = useUserStore();
 
 const cartData = ref([]);
 const selectedIdSet = ref(new Set());
+const submitting = ref(false);
 const form = reactive({
     receiverName: '',
     receiverPhone: '',
@@ -151,6 +154,10 @@ const onDelete = (item) => {
 };
 
 const checkout = () => {
+    if (submitting.value) {
+        return;
+    }
+
     const userId = userStore.user_id;
     const ids = Array.from(selectedIdSet.value);
 
@@ -162,6 +169,8 @@ const checkout = () => {
         message.warn('请输入收货人');
         return;
     }
+
+    submitting.value = true;
 
     checkoutApi({
         userId,
@@ -177,6 +186,9 @@ const checkout = () => {
         })
         .catch((err) => {
             message.error(err.msg || '下单失败');
+        })
+        .finally(() => {
+            submitting.value = false;
         });
 };
 </script>
@@ -316,34 +328,153 @@ const checkout = () => {
     height: 40px;
     padding: 0 22px;
     cursor: pointer;
+
+    &:disabled {
+        background: #f0efb0;
+        color: #8f8f76;
+        cursor: not-allowed;
+    }
+}
+
+.submit:hover {
+    background: #d7d440;
+}
+
+:deep(.ant-input-number) {
+    border-color: #e6e6c8;
+    border-radius: 10px;
+    height: 34px;
+    box-shadow: none;
+}
+
+:deep(.ant-input-number:hover),
+:deep(.ant-input-number-focused) {
+    border-color: #e2df46;
+    box-shadow: 0 0 0 2px rgba(226, 223, 70, 0.15);
+}
+
+:deep(.ant-checkbox-wrapper) {
+    color: #5e5e49;
+}
+
+:deep(.ant-checkbox-checked .ant-checkbox-inner) {
+    background-color: #e2df46;
+    border-color: #d9d641;
 }
 
 @media (max-width: 860px) {
+
+    .list-head,
+    .item {
+        grid-template-columns: 42px minmax(140px, 1fr) 72px 112px 78px 56px;
+        gap: 8px;
+    }
+
+    .item {
+        padding: 10px 8px;
+    }
+
+    .thing {
+        gap: 8px;
+
+        img {
+            width: 50px;
+            height: 50px;
+        }
+
+        h3 {
+            font-size: 13px;
+        }
+    }
+
+    :deep(.ant-input-number) {
+        width: 100px;
+    }
+
+    .sticky-inner {
+        height: 64px;
+        padding: 0 12px;
+    }
+
+    .summary {
+        font-size: 13px;
+    }
+
+    .summary b {
+        font-size: 17px;
+    }
+
+    .submit {
+        height: 38px;
+        padding: 0 18px;
+    }
+}
+
+@media (max-width: 620px) {
     .list-head {
         display: none;
     }
 
     .item {
-        grid-template-columns: 42px 1fr;
-        gap: 8px;
+        grid-template-columns: 34px minmax(0, 1fr) 64px 90px 74px 54px;
+        grid-template-rows: auto auto;
+        column-gap: 6px;
+        row-gap: 8px;
+        align-items: center;
+        padding: 10px 8px;
     }
 
-    .cell {
-        &.check {
-            grid-row: 1 / 3;
-            align-self: flex-start;
-            padding-top: 18px;
-        }
-
-        &:not(.check):not(.thing) {
-            grid-column: 2;
-            font-size: 13px;
-            color: #666;
-        }
+    .cell.check {
+        grid-column: 1;
+        grid-row: 1 / 3;
+        align-self: flex-start;
+        padding-top: 10px;
     }
 
     .thing {
-        grid-column: 2;
+        grid-column: 2 / 7;
+        grid-row: 1;
+    }
+
+    .cell.price,
+    .cell.qty,
+    .cell.subtotal,
+    .cell.action {
+        grid-row: 2;
+        font-size: 12px;
+        color: #666;
+        white-space: nowrap;
+    }
+
+    .cell.price {
+        grid-column: 3;
+    }
+
+    .cell.qty {
+        grid-column: 4;
+    }
+
+    .cell.subtotal {
+        grid-column: 5;
+    }
+
+    .cell.action {
+        grid-column: 6;
+        text-align: right;
+    }
+
+    :deep(.ant-input-number) {
+        width: 84px;
+        height: 30px;
+    }
+
+    :deep(.ant-input-number-input) {
+        height: 28px;
+    }
+
+    .del {
+        padding: 0;
+        font-size: 12px;
     }
 
     .sticky-inner {
@@ -351,6 +482,7 @@ const checkout = () => {
         flex-direction: column;
         justify-content: center;
         gap: 6px;
+        padding: 0 12px;
     }
 
     .summary b {

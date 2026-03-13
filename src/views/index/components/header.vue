@@ -204,6 +204,7 @@ const onClose = () => {
     width: 100% !important;
     min-width: 0 !important;
     margin-left: 0;
+    margin-top: 4px;
     order: 3;
   }
 
@@ -211,8 +212,8 @@ const onClose = () => {
     height: auto !important;
     min-height: 64px;
     flex-wrap: wrap;
-    row-gap: 8px;
-    padding: 0 12px !important;
+    row-gap: 10px;
+    padding: 8px 12px 10px !important;
   }
 
   .right-zone {

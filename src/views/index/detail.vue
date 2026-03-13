@@ -102,15 +102,6 @@ const maxCartCount = computed(() => {
     return resolveStock(selectedCartThing.value);
 });
 
-onMounted(() => {
-    thingId.value = (route.query.id || '').toString().trim();
-    if (!thingId.value) {
-        return;
-    }
-    getThingDetail();
-    getRecommendThing();
-});
-
 const normalizeThing = (item) => ({
     ...item,
     cover: item.cover ? BASE_URL + '/api/staticfiles/image/' + item.cover : '',
@@ -226,6 +217,22 @@ const getRecommendThing = () => {
             recommendData.value = [];
         });
 };
+
+watch(
+    () => route.query.id,
+    (id) => {
+        thingId.value = (id || '').toString().trim();
+        if (!thingId.value) {
+            detailData.value = {};
+            recommendData.value = [];
+            return;
+        }
+        getThingDetail();
+        getRecommendThing();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    },
+    { immediate: true },
+);
 
 const handleDetail = (item) => {
     router.push({ name: 'detail', query: { id: item.id } });

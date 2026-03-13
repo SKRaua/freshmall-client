@@ -163,13 +163,18 @@ textarea {
   flex: 1;
 
   .list-title {
-    color: #152844;
+    color: #333324;
     font-weight: 600;
-    font-size: 18px;
-    line-height: 48px;
-    height: 48px;
-    margin-bottom: 4px;
-    border-bottom: 1px solid #cedce4;
+    font-size: 20px;
+    line-height: 30px;
+    margin-bottom: 14px;
+  }
+
+  .list-content {
+    background: #fff;
+    border: 1px solid #ececcf;
+    border-radius: 14px;
+    padding: 18px 20px;
   }
 
   .edit-view {
@@ -181,7 +186,7 @@ textarea {
 
       .label {
         width: 100px;
-        color: #152844;
+        color: #4d4d39;
         font-weight: 600;
         font-size: 14px;
       }
@@ -209,7 +214,7 @@ textarea {
       }
 
       label {
-        color: #e2df46;
+        color: #978213;
         font-size: 14px;
         line-height: 22px;
         height: 22px;
@@ -219,7 +224,7 @@ textarea {
       }
 
       .tip {
-        color: #6f6f6f;
+        color: #8a8a74;
         font-size: 14px;
         height: 22px;
         line-height: 22px;
@@ -238,32 +243,45 @@ textarea {
       }
 
       .input-dom {
-        background: #f8fafb;
-        border-radius: 4px;
+        background: #fff;
+        border: 1px solid #e6e6c8;
+        border-radius: 10px;
         height: 40px;
         line-height: 40px;
         font-size: 14px;
-        color: #152844;
+        color: #2f2f2f;
         padding: 0 12px;
+      }
+
+      .input-dom:focus {
+        border-color: #e2df46;
+        box-shadow: 0 0 0 2px rgba(226, 223, 70, 0.15);
       }
 
       .tip {
         font-size: 12px;
         line-height: 16px;
-        color: #6f6f6f;
+        color: #8a8a74;
         height: 16px;
         margin-top: 4px;
       }
 
       .intro {
         resize: none;
-        background: #f8fafb;
+        background: #fff;
+        border: 1px solid #e6e6c8;
+        border-radius: 10px;
         width: 100%;
         padding: 8px 12px;
         height: 82px;
         line-height: 22px;
         font-size: 14px;
-        color: #152844;
+        color: #2f2f2f;
+      }
+
+      .intro:focus {
+        border-color: #e2df46;
+        box-shadow: 0 0 0 2px rgba(226, 223, 70, 0.15);
       }
     }
 
@@ -271,13 +289,18 @@ textarea {
       background: #e2df46;
       border-radius: 32px;
       width: 96px;
-      height: 32px;
-      line-height: 32px;
+      height: 36px;
+      line-height: 36px;
       font-size: 14px;
-      color: #fff;
+      font-weight: 700;
+      color: #2f2f1f;
       border: none;
       outline: none;
       cursor: pointer;
+    }
+
+    .save:hover {
+      background: #d7d440;
     }
 
     .mg {

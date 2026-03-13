@@ -12,32 +12,30 @@
             </div>
           </div>
         </div>
-        <div class="edit-pwd-box" style="display;">
-          <div class="pwd-edit">
-            <!---->
-            <div class="item flex-view">
-              <div class="label">当前密码</div>
-              <div class="right-box">
-                <a-input-password placeholder="输入当前密码" v-model:value="password" />
-              </div>
+
+        <div class="pwd-edit">
+          <div class="item flex-view">
+            <div class="label">当前密码</div>
+            <div class="right-box">
+              <a-input-password class="fm-input" placeholder="输入当前密码" v-model:value="password" />
             </div>
-            <div class="item flex-view">
-              <div class="label">新密码</div>
-              <div class="right-box">
-                <a-input-password placeholder="输入新密码" v-model:value="newPassword1" />
-              </div>
+          </div>
+          <div class="item flex-view">
+            <div class="label">新密码</div>
+            <div class="right-box">
+              <a-input-password class="fm-input" placeholder="输入新密码" v-model:value="newPassword1" />
             </div>
-            <div class="item flex-view">
-              <div class="label">确认新密码</div>
-              <div class="right-box">
-                <a-input-password placeholder="重复输入密码" v-model:value="newPassword2" />
-              </div>
+          </div>
+          <div class="item flex-view">
+            <div class="label">确认新密码</div>
+            <div class="right-box">
+              <a-input-password class="fm-input" placeholder="重复输入密码" v-model:value="newPassword2" />
             </div>
-            <div class="item flex-view">
-              <div class="label"> </div>
-              <div class="right-box">
-                <a-button type="primary" @click="handleUpdatePwd()">修改密码</a-button>
-              </div>
+          </div>
+          <div class="item flex-view">
+            <div class="label"> </div>
+            <div class="right-box">
+              <a-button class="fm-btn" @click="handleUpdatePwd()">修改密码</a-button>
             </div>
           </div>
         </div>
@@ -52,16 +50,11 @@ import { message } from 'ant-design-vue';
 import { updateUserPwdApi } from '/@/api/user';
 import { useUserStore } from '/@/store';
 
-const router = useRouter();
 const userStore = useUserStore();
 
 let password = ref('');
 let newPassword1 = ref('');
 let newPassword2 = ref('');
-
-const handleBindMobile = () => {
-  message.info('功能开发中');
-};
 
 const handleUpdatePwd = () => {
   if (!password.value || !newPassword1.value || !newPassword2.value) {
@@ -106,82 +99,100 @@ textarea {
   flex: 1;
 
   .list-title {
-    color: #152844;
+    color: #333324;
     font-weight: 600;
-    font-size: 18px;
-    //line-height: 24px;
-    height: 48px;
-    margin-bottom: 4px;
-    border-bottom: 1px solid #cedce4;
+    font-size: 20px;
+    line-height: 30px;
+    margin-bottom: 14px;
+  }
+
+  .list-content {
+    background: #fff;
+    border: 1px solid #ececcf;
+    border-radius: 14px;
+    padding: 18px 20px;
   }
 }
 
 .safe-view {
   .item {
-    -webkit-box-align: center;
-    -ms-flex-align: center;
     align-items: center;
-    margin: 24px 0;
+    margin: 20px 0;
 
     .label {
       width: 100px;
-      color: #152844;
+      color: #4d4d39;
       font-weight: 600;
       font-size: 14px;
     }
 
     .flex-center {
-      -webkit-box-align: center;
-      -ms-flex-align: center;
       align-items: center;
     }
 
     .safe-text {
-      color: #f62a2a;
+      color: #d1851f;
       font-weight: 600;
       font-size: 14px;
-      margin-right: 18px;
+      margin-right: 14px;
     }
 
     .safe-line {
-      background: #d3dce6;
-      border-radius: 8px;
+      background: #ececcf;
+      border-radius: 999px;
       width: 280px;
       height: 8px;
       overflow: hidden;
-      color: #f6982a;
-    }
-
-    .input-dom {
-      background: #f8fafb;
-      border-radius: 4px;
-      width: 240px;
-      height: 40px;
-      line-height: 40px;
-      font-size: 14px;
-      color: #5f77a6;
-      padding: 0 12px;
-      margin-right: 16px;
-    }
-
-    .change-btn {
       color: #e2df46;
-      font-size: 14px;
-      border: none;
-      outline: none;
-      cursor: pointer;
+    }
+  }
+}
+
+.fm-btn {
+  border: none;
+  background: #e2df46;
+  color: #2f2f1f;
+  font-weight: 700;
+  border-radius: 999px;
+  height: 38px;
+  padding: 0 18px;
+}
+
+.fm-btn:hover,
+.fm-btn:focus {
+  background: #d7d440;
+  color: #2f2f1f;
+}
+
+:deep(.fm-input .ant-input-affix-wrapper) {
+  border: 1px solid #e6e6c8;
+  border-radius: 10px;
+  height: 40px;
+  background: #fff;
+  box-shadow: none;
+}
+
+:deep(.fm-input .ant-input-affix-wrapper:hover),
+:deep(.fm-input .ant-input-affix-wrapper-focused) {
+  border-color: #e2df46;
+  box-shadow: 0 0 0 2px rgba(226, 223, 70, 0.15);
+}
+
+@media (max-width: 760px) {
+  .safe-view {
+    .item {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+      margin: 14px 0;
     }
 
-    .wx-text {
-      color: #5f77a6;
-      font-size: 14px;
-      margin-right: 16px;
+    .item .label {
+      width: auto;
     }
 
-    .edit-pwd-btn {
-      color: #e2df46;
-      font-size: 14px;
-      cursor: pointer;
+    .item .safe-line {
+      width: 180px;
     }
   }
 }
