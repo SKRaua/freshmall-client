@@ -55,7 +55,6 @@
 <script setup>
 import { message } from 'ant-design-vue';
 import { detailApi, updateUserInfoApi } from '/@/api/user';
-import { BASE_URL } from '/@/store/constants';
 import { useUserStore } from '/@/store';
 import AvatarIcon from '/@/assets/images/avatar.jpg';
 
@@ -99,7 +98,7 @@ const getUserInfo = () => {
       if (res.data) {
         tData.form = res.data;
         if (tData.form.avatar) {
-          tData.form.avatar = BASE_URL + '/api/staticfiles/avatar/' + tData.form.avatar
+          tData.form.avatar = '/api/staticfiles/avatar/' + tData.form.avatar
         }
       }
       loading.value = false;
@@ -161,6 +160,7 @@ textarea {
   -webkit-box-flex: 1;
   -ms-flex: 1;
   flex: 1;
+  min-width: 0;
 
   .list-title {
     color: #333324;
@@ -195,6 +195,7 @@ textarea {
         -webkit-box-flex: 1;
         -ms-flex: 1;
         flex: 1;
+        min-width: 0;
       }
 
       .avatar {
@@ -240,6 +241,7 @@ textarea {
 
       .input-dom {
         width: 400px;
+        max-width: 100%;
       }
 
       .input-dom {
@@ -305,6 +307,51 @@ textarea {
 
     .mg {
       margin-left: 100px;
+    }
+  }
+}
+
+@media (max-width: 760px) {
+  .content-list {
+    .list-title {
+      font-size: 18px;
+      line-height: 26px;
+    }
+
+    .list-content {
+      padding: 14px 12px;
+      border-radius: 12px;
+    }
+
+    .edit-view {
+      .item {
+        align-items: flex-start;
+        flex-direction: column;
+        margin: 16px 0;
+
+        .label {
+          width: auto;
+          margin-bottom: 8px;
+        }
+
+        .right-box {
+          width: 100%;
+        }
+
+        .input-dom {
+          width: 100%;
+        }
+
+        .avatar {
+          width: 56px;
+          height: 56px;
+          margin-right: 12px;
+        }
+      }
+
+      .mg {
+        margin-left: 0;
+      }
     }
   }
 }

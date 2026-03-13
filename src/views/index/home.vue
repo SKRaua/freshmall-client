@@ -45,7 +45,6 @@ import Header from '/@/views/index/components/header.vue';
 import Footer from '/@/views/index/components/footer.vue';
 import { listApi as listClassificationList } from '/@/api/classification';
 import { listApi as listThingList } from '/@/api/thing';
-import { BASE_URL } from '/@/store/constants';
 
 const router = useRouter();
 
@@ -115,7 +114,7 @@ const clickCategory = (id) => {
 const mapThing = (item) => {
     const next = { ...item };
     if (next.cover) {
-        next.cover = BASE_URL + '/api/staticfiles/image/' + next.cover;
+        next.cover = '/api/staticfiles/image/' + next.cover;
     }
     return next;
 };
@@ -320,7 +319,13 @@ const handleDetail = (item) => {
         font-size: 15px;
         line-height: 1.45;
         color: #2d2d2d;
-        word-break: break-all;
+        word-break: break-word;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        line-clamp: 3;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
     }
 
     .row {

@@ -26,165 +26,164 @@
 </template>
 
 <script setup>
-  import { message } from 'ant-design-vue';
-  import { userWishListApi, unWishApi } from '/@/api/thingWish';
-  import { BASE_URL } from '/@/store/constants';
-  import { useUserStore } from '/@/store';
+import { message } from 'ant-design-vue';
+import { userWishListApi, unWishApi } from '/@/api/thingWish';
+import { useUserStore } from '/@/store';
 
-  const router = useRouter();
-  const route = useRoute();
-  const userStore = useUserStore();
+const router = useRouter();
+const route = useRoute();
+const userStore = useUserStore();
 
-  let wishData = ref([]);
+let wishData = ref([]);
 
-  onMounted(() => {
-    getWishThingList();
-  });
+onMounted(() => {
+  getWishThingList();
+});
 
-  const loading = ref(false);
+const loading = ref(false);
 
-  const handleClickItem = (record) => {
-    let text = router.resolve({ name: 'detail', query: { id: record.thing_id } });
-    window.open(text.href, '_blank');
-  };
+const handleClickItem = (record) => {
+  let text = router.resolve({ name: 'detail', query: { id: record.thing_id } });
+  window.open(text.href, '_blank');
+};
 
-  const handleRemove = (record) => {
-    let username = userStore.user_name;
-    unWishApi({ id: record.id })
-      .then((res) => {
-        message.success('移除成功');
-        getWishThingList();
-      })
-      .catch((err) => {
-        console.log(err);
+const handleRemove = (record) => {
+  let username = userStore.user_name;
+  unWishApi({ id: record.id })
+    .then((res) => {
+      message.success('移除成功');
+      getWishThingList();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+const getWishThingList = () => {
+  loading.value = true;
+  let userId = userStore.user_id;
+  userWishListApi({ userId: userId })
+    .then((res) => {
+      res.data.forEach((item) => {
+        item.cover = '/api/staticfiles/image/' + item.cover;
       });
-  };
-  const getWishThingList = () => {
-    loading.value = true;
-    let userId = userStore.user_id;
-    userWishListApi({ userId: userId })
-      .then((res) => {
-        res.data.forEach((item) => {
-          item.cover = BASE_URL + '/api/staticfiles/image/' + item.cover;
-        });
-        wishData.value = res.data;
-        loading.value = false;
-      })
-      .catch((err) => {
-        console.log(err.msg);
-        loading.value = false;
-      });
-  };
+      wishData.value = res.data;
+      loading.value = false;
+    })
+    .catch((err) => {
+      console.log(err.msg);
+      loading.value = false;
+    });
+};
 </script>
 <style scoped lang="less">
-  .flex-view {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
+.flex-view {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.content-list {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+
+  .list-title {
+    color: #152844;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 24px;
+    height: 24px;
+    margin-bottom: 4px;
   }
 
-  .content-list {
-    -webkit-box-flex: 1;
-    -ms-flex: 1;
-    flex: 1;
-
-    .list-title {
-      color: #152844;
-      font-weight: 600;
-      font-size: 18px;
-      line-height: 24px;
-      height: 24px;
-      margin-bottom: 4px;
-    }
-
-    .list-tabs-view {
-      position: relative;
-      border-bottom: 1px solid #cedce4;
-      height: 12px;
-      line-height: 42px;
-    }
+  .list-tabs-view {
+    position: relative;
+    border-bottom: 1px solid #cedce4;
+    height: 12px;
+    line-height: 42px;
   }
+}
 
-  .thing-list {
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-    -webkit-box-pack: start;
-    -ms-flex-pack: start;
-    justify-content: flex-start;
-    gap: 16px;
+.thing-list {
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  gap: 16px;
 
-    .thing-item {
-      position: relative;
-      width: 240px;
-      height: fit-content;
-      border-radius: 4px;
-      overflow: hidden;
-      margin-top: 16px;
+  .thing-item {
+    position: relative;
+    width: 240px;
+    height: fit-content;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 16px;
+    cursor: pointer;
+
+    .remove {
+      position: absolute;
+      right: 8px;
+      top: 8px;
+      width: 48px;
+      height: 20px;
+      text-align: center;
+      line-height: 20px;
+      color: #fff;
+      background: #a1adc5;
+      border-radius: 32px;
       cursor: pointer;
+    }
 
-      .remove {
-        position: absolute;
-        right: 8px;
-        top: 8px;
-        width: 48px;
-        height: 20px;
-        text-align: center;
+    .img-view {
+      background: #eaf1f5;
+      font-size: 0;
+      text-align: center;
+      height: 156px;
+
+      img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        margin: 0 auto;
+        object-fit: cover;
+        border-radius: 4px;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+      }
+    }
+
+    .info-view {
+      background: #f6f9fb;
+      text-align: center;
+      height: 50px;
+      overflow: hidden;
+      padding: 0 16px;
+
+      h3 {
+        color: #1c355a;
+        font-weight: 500;
+        font-size: 16px;
         line-height: 20px;
-        color: #fff;
-        background: #a1adc5;
-        border-radius: 32px;
-        cursor: pointer;
-      }
-
-      .img-view {
-        background: #eaf1f5;
-        font-size: 0;
-        text-align: center;
-        height: 156px;
-
-        img {
-          width: 100%;
-          height: 100%;
-          display: block;
-          margin: 0 auto;
-          object-fit: cover;
-          border-radius: 4px;
-          -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-        }
-      }
-
-      .info-view {
-        background: #f6f9fb;
-        text-align: center;
-        height: 50px;
         overflow: hidden;
-        padding: 0 16px;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        margin: 12px 0 8px;
+      }
 
-        h3 {
-          color: #1c355a;
-          font-weight: 500;
-          font-size: 16px;
-          line-height: 20px;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-          margin: 12px 0 8px;
-        }
-
-        .authors,
-        .translators {
-          color: #6f6f6f;
-          font-size: 12px;
-          line-height: 14px;
-          margin-top: 4px;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-        }
+      .authors,
+      .translators {
+        color: #6f6f6f;
+        font-size: 12px;
+        line-height: 14px;
+        margin-top: 4px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
     }
   }
+}
 </style>

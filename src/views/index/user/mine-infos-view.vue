@@ -60,7 +60,6 @@ import MyOrderImg from '/@/assets/images/order-icon.svg';
 // import SafeIconImage from '/@/assets/images/setting-safe-icon.svg';
 // import PushIconImage from '/@/assets/images/setting-push-icon.svg';
 // import MessageIconImage from '/@/assets/images/setting-msg-icon.svg';
-import { BASE_URL } from '/@/store/constants';
 import { detailApi } from '/@/api/user';
 
 import { userCollectListApi } from '/@/api/thingCollect';
@@ -84,7 +83,7 @@ const getUserInfo = () => {
   detailApi({ id: userId })
     .then((res) => {
       if (res.data && res.data.avatar) {
-        avatarUrl.value = BASE_URL + '/api/staticfiles/avatar/' + res.data.avatar;
+        avatarUrl.value = '/api/staticfiles/avatar/' + res.data.avatar;
       }
     })
     .catch((err) => {

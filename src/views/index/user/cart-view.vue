@@ -72,7 +72,6 @@
 
 <script setup>
 import { message } from 'ant-design-vue';
-import { BASE_URL } from '/@/store/constants';
 import { useUserStore } from '/@/store';
 import { checkoutApi, deleteApi, listApi, updateCountApi } from '/@/api/cart';
 
@@ -108,7 +107,7 @@ const loadCart = () => {
         .then((res) => {
             const list = res.data || [];
             list.forEach((item) => {
-                item.cover = BASE_URL + '/api/staticfiles/image/' + item.cover;
+                item.cover = '/api/staticfiles/image/' + item.cover;
             });
             cartData.value = list;
             selectedIdSet.value = new Set();

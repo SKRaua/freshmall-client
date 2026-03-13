@@ -71,7 +71,6 @@ import AvatarIcon from '/@/assets/images/avatar.jpg';
 import MessageIcon from '/@/assets/images/ic-message.png';
 import { message } from 'ant-design-vue';
 import { detailApi } from '/@/api/user';
-import { BASE_URL } from '/@/store/constants';
 import { getFormatTime } from '/@/utils';
 
 const router = useRouter();
@@ -129,7 +128,7 @@ const getUserInfo = () => {
     detailApi({ id: userId })
       .then((res) => {
         if (res.data && res.data.avatar) {
-          avatarUrl.value = BASE_URL + '/api/staticfiles/avatar/' + res.data.avatar;
+          avatarUrl.value = '/api/staticfiles/avatar/' + res.data.avatar;
         }
       })
       .catch((err) => {
@@ -188,37 +187,66 @@ const onClose = () => {
 
 <style scoped lang="less">
 @media (max-width: 960px) {
-  .menu {
-    display: none;
+  .header-inner {
+    gap: 12px;
+    padding: 0 12px;
   }
 
   .search-box {
-    width: 140px !important;
-    min-width: 140px !important;
+    width: 180px;
+    min-width: 140px;
+  }
+
+  .menu .menu-item {
+    padding: 6px 10px;
   }
 }
 
-@media (max-width: 680px) {
-  .search-box {
-    display: flex !important;
-    width: 100% !important;
-    min-width: 0 !important;
-    margin-left: 0;
-    margin-top: 4px;
-    order: 3;
-  }
-
+@media (max-width: 760px) {
   .header-inner {
     height: auto !important;
     min-height: 64px;
     flex-wrap: wrap;
-    row-gap: 10px;
+    row-gap: 8px;
+    column-gap: 8px;
     padding: 8px 12px 10px !important;
   }
 
-  .right-zone {
-    margin-left: auto;
+  .brand {
+    order: 1;
+    flex: 0 0 auto;
+  }
+
+  .menu {
     order: 2;
+    flex: 1 1 auto;
+    min-width: 0;
+    margin-left: 0;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 4px;
+  }
+
+  .search-box {
+    order: 3;
+    flex: 1 1 0;
+    width: 0 !important;
+    min-width: 0 !important;
+    margin-left: 0;
+  }
+
+  .right-zone {
+    order: 4;
+    flex: 0 0 auto;
+    margin-left: 8px;
+    gap: 8px;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+  }
+
+  .login-btn {
+    padding: 6px 10px;
   }
 
   .brand span {

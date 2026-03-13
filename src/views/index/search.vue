@@ -19,7 +19,6 @@ import Header from '/@/views/index/components/header.vue';
 import Footer from '/@/views/index/components/footer.vue';
 import ThingWaterfall from '/@/views/index/components/thing-waterfall.vue';
 import { listApi as listThingList } from '/@/api/thing';
-import { BASE_URL } from '/@/store/constants';
 
 const router = useRouter();
 const route = useRoute();
@@ -34,17 +33,17 @@ const tData = reactive({
     pageSize: 16,
 });
 
+function search() {
+    tData.keyword = (route.query.keyword || '').toString().trim();
+    getThingList(tData.keyword ? { keyword: tData.keyword } : {});
+}
+
 onMounted(search);
 
 watch(
     () => route.query.keyword,
     () => search(),
 );
-
-const search = () => {
-    tData.keyword = (route.query.keyword || '').toString().trim();
-    getThingList(tData.keyword ? { keyword: tData.keyword } : {});
-};
 
 const changePage = (page) => {
     tData.page = page;
@@ -59,7 +58,7 @@ const getThingList = (params) => {
             tData.thingData = (res.data || [])
                 .map((item) => ({
                     ...item,
-                    cover: item.cover ? BASE_URL + '/api/staticfiles/image/' + item.cover : '',
+                    cover: item.cover ? '/api/staticfiles/image/' + item.cover : '',
                 }))
                 .filter((item) => item.status === '0');
             tData.total = tData.thingData.length;

@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { USER_ID, USER_NAME, USER_TOKEN } from '@/constants';
+import { USER_ID, USER_NAME, USER_TOKEN } from '/@/store/constants';
 
 export const useUserStore = defineStore('user', {
     state: () => ({

@@ -75,7 +75,6 @@ import Footer from '/@/views/index/components/footer.vue';
 import { detailApi, getRecommendApi, rateApi } from '/@/api/thing';
 import { wishApi } from '/@/api/thingWish';
 import { collectApi } from '/@/api/thingCollect';
-import { BASE_URL } from '/@/store/constants';
 import { useUserStore } from '/@/store';
 import { addApi as addCartApi } from '/@/api/cart';
 
@@ -104,7 +103,7 @@ const maxCartCount = computed(() => {
 
 const normalizeThing = (item) => ({
     ...item,
-    cover: item.cover ? BASE_URL + '/api/staticfiles/image/' + item.cover : '',
+    cover: item.cover ? '/api/staticfiles/image/' + item.cover : '',
 });
 
 const getThingDetail = () => {

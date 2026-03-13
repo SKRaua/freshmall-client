@@ -18,7 +18,6 @@ import Header from '/@/views/index/components/header.vue';
 import Footer from '/@/views/index/components/footer.vue';
 import ThingWaterfall from '/@/views/index/components/thing-waterfall.vue';
 import { getRecommendApi } from '/@/api/thing';
-import { BASE_URL } from '/@/store/constants';
 
 const router = useRouter();
 
@@ -48,7 +47,7 @@ const getThingList = () => {
             contentData.thingData = (res.data || [])
                 .map((item) => ({
                     ...item,
-                    cover: item.cover ? BASE_URL + '/api/staticfiles/image/' + item.cover : '',
+                    cover: item.cover ? '/api/staticfiles/image/' + item.cover : '',
                 }))
                 .filter((item) => item.status === '0');
             contentData.total = contentData.thingData.length;

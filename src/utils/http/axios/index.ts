@@ -4,11 +4,10 @@ import { showMessage } from './status';
 import { IResponse } from './type';
 import { getToken } from '/@/utils/auth';
 import { TokenPrefix } from '/@/utils/auth';
-import { ADMIN_USER_TOKEN, USER_TOKEN, BASE_URL } from '/@/store/constants';
+import { ADMIN_USER_TOKEN, USER_TOKEN } from '/@/store/constants';
 
 const service: AxiosInstance = axios.create({
-  // baseURL: import.meta.env.BASE_URL + '',
-  baseURL: BASE_URL + '',
+  baseURL: '',
   timeout: 15000,
 });
 

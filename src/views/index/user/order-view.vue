@@ -24,7 +24,7 @@
                                 <button class="cancel-btn">取消订单</button>
                             </a-popconfirm>
                             <span :class="['state', stateClass(item.viewStatus)]">{{ statusText(item.viewStatus)
-                                }}</span>
+                            }}</span>
                         </div>
                     </header>
 
@@ -46,7 +46,6 @@
 <script setup>
 import { message } from 'ant-design-vue';
 import { userOrderListApi, cancelUserOrderApi } from '/@/api/order';
-import { BASE_URL } from '/@/store/constants';
 import { useUserStore } from '/@/store';
 import { getFormatTime } from '/@/utils';
 
@@ -116,7 +115,7 @@ const getOrderList = () => {
         .then((res) => {
             orderData.value = (res.data || []).map((item) => ({
                 ...item,
-                cover: item.cover ? BASE_URL + '/api/staticfiles/image/' + item.cover : '',
+                cover: item.cover ? '/api/staticfiles/image/' + item.cover : '',
                 orderTime: getFormatTime(item.orderTime, true),
                 viewStatus: normalizeStatus(item.status),
             }));
@@ -264,11 +263,20 @@ const handleCancel = (item) => {
 
 .meta {
     flex: 1;
+    min-width: 0;
 
     h3 {
         margin: 0;
         font-size: 15px;
         color: #2f2f2f;
+        line-height: 1.45;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        line-clamp: 3;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        word-break: break-word;
     }
 
     p {
