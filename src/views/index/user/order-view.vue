@@ -24,7 +24,7 @@
                                 <button class="cancel-btn">取消订单</button>
                             </a-popconfirm>
                             <span :class="['state', stateClass(item.viewStatus)]">{{ statusText(item.viewStatus)
-                            }}</span>
+                                }}</span>
                         </div>
                     </header>
 
