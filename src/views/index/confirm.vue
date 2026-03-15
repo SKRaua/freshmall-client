@@ -41,7 +41,7 @@
 <script setup>
 import { message } from 'ant-design-vue';
 import Header from '/@/views/index/components/header.vue';
-import { createApi } from '/@/api/order';
+import { createApi, userOrderListApi } from '/@/api/order';
 import { useUserStore } from '/@/store';
 
 const router = useRouter();
@@ -77,6 +77,22 @@ const handleBack = () => {
     router.back();
 };
 
+const navigateToLatestOrderDetail = () => {
+    const userId = userStore.user_id;
+    return userOrderListApi({ userId, orderStatus: '' })
+        .then((listRes) => {
+            const list = listRes?.data || [];
+            if (list.length > 0 && list[0]?.id) {
+                router.push({ name: 'orderDetailView', query: { orderId: list[0].id }, replace: true });
+                return;
+            }
+            router.push({ name: 'orderView', replace: true });
+        })
+        .catch(() => {
+            router.push({ name: 'orderView', replace: true });
+        });
+};
+
 const handleCommit = () => {
     const userId = userStore.user_id;
     if (!userId) {
@@ -98,9 +114,14 @@ const handleCommit = () => {
     formData.append('receiverAddress', pageData.receiverAddress || '');
 
     createApi(formData)
-        .then(() => {
+        .then((res) => {
             message.success('提交成功');
-            router.push({ name: 'success', query: { title: pageData.title, amount: pageData.amount }, replace: true });
+            const orderId = res?.data?.orderId;
+            if (orderId) {
+                router.push({ name: 'orderDetailView', query: { orderId }, replace: true });
+                return;
+            }
+            navigateToLatestOrderDetail();
         })
         .catch((err) => {
             message.error(err.msg || '操作失败');

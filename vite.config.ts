@@ -5,7 +5,9 @@ import AutoImport from 'unplugin-auto-import/vite';
 const srcPath = new URL('./src', import.meta.url).pathname;
 
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), '');
+  const env = loadEnv(mode, '.', '');
+  // const env = loadEnv(mode, process.cwd(), '');
+
 
   return {
     plugins: [

@@ -60,6 +60,11 @@ const constantRouterMap = [
                 component: () => import('/@/views/index/order.vue'),
             },
             {
+                path: 'order-detail',
+                name: 'orderDetailView',
+                component: () => import('/@/views/index/order-detail.vue'),
+            },
+            {
                 path: 'usercenter',
                 name: 'usercenter',
                 redirect: '/index/usercenter/userInfoEditView',

@@ -1,6 +1,6 @@
-import {get, post} from '/@/utils/http/axios';
+import { get, post } from '/@/utils/http/axios';
 
-const URL= {
+const URL = {
     list: '/api/order/list',
     create: '/api/order/create',
     update: '/api/order/update',
@@ -11,31 +11,33 @@ const URL= {
 }
 
 const listApi = async (params) =>
-    get({url: URL.list, params: params, data: {}, headers: {}});
+    get({ url: URL.list, params: params, data: {}, headers: {} });
 const userOrderListApi = async (params) =>
-    get({url: URL.userOrderList, params: params, data: {}, headers: {}});
+    get({ url: URL.userOrderList, params: params, data: {}, headers: {} });
 
 const createApi = async (data) =>
     post({
         url: URL.create,
         params: {},
         data: data,
-        headers: {'Content-Type': 'multipart/form-data;charset=utf-8'}
+        headers: { 'Content-Type': 'multipart/form-data;charset=utf-8' }
     });
 const updateApi = async (params, data) =>
     post({
         url: URL.update,
         params: params,
         data: data,
-        headers: {'Content-Type': 'multipart/form-data;charset=utf-8'}
+        headers: { 'Content-Type': 'multipart/form-data;charset=utf-8' }
     });
+const updateStatusApi = async (params) =>
+    post({ url: URL.update, params: params, headers: {} });
 const deleteApi = async (params) =>
-    post({url: URL.delete, params: params, headers: {}});
+    post({ url: URL.delete, params: params, headers: {} });
 
 const cancelApi = async (params) =>
-    post({url: URL.cancel, params: params, headers: {}});
+    post({ url: URL.cancel, params: params, headers: {} });
 
 const cancelUserOrderApi = async (params) =>
-    post({url: URL.cancelUserOrder, params: params, headers: {}});
+    post({ url: URL.cancelUserOrder, params: params, headers: {} });
 
-export {listApi, userOrderListApi, createApi, updateApi, deleteApi, cancelApi, cancelUserOrderApi};
+export { listApi, userOrderListApi, createApi, updateApi, updateStatusApi, deleteApi, cancelApi, cancelUserOrderApi };

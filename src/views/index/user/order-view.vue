@@ -19,16 +19,16 @@
                             <span class="time">{{ item.orderTime }}</span>
                         </div>
                         <div class="state-wrap">
-                            <a-popconfirm v-if="item.viewStatus === 'toShip'" title="确定取消订单？" ok-text="是"
-                                cancel-text="否" @confirm="handleCancel(item)">
+                            <a-popconfirm v-if="item.viewStatus === 'toShip' || item.viewStatus === 'toPay'"
+                                title="确定取消订单？" ok-text="是" cancel-text="否" @confirm="handleCancel(item)">
                                 <button class="cancel-btn">取消订单</button>
                             </a-popconfirm>
                             <span :class="['state', stateClass(item.viewStatus)]">{{ statusText(item.viewStatus)
-                                }}</span>
+                            }}</span>
                         </div>
                     </header>
 
-                    <div class="item-row" @click="handleDetail(item.thingId)">
+                    <div class="item-row" @click="handleDetail(item.id)">
                         <img :src="item.cover" class="cover" />
                         <div class="meta">
                             <h3>{{ item.title }}</h3>
@@ -58,6 +58,7 @@ const activeTab = ref('all');
 
 const tabList = [
     { key: 'all', label: '全部' },
+    { key: 'toPay', label: '待支付' },
     { key: 'toShip', label: '待发货' },
     { key: 'toReceive', label: '待收货' },
     { key: 'finished', label: '已完成' },
@@ -68,6 +69,9 @@ const normalizeStatus = (status) => {
     const value = String(status ?? '').trim();
     if (['0', 'canceled', 'cancelled', '已取消'].includes(value)) {
         return 'canceled';
+    }
+    if (['4', 'toPay', '待支付'].includes(value)) {
+        return 'toPay';
     }
     if (['1', 'toShip', '待发货'].includes(value)) {
         return 'toShip';
@@ -82,6 +86,7 @@ const normalizeStatus = (status) => {
 };
 
 const statusText = (status) => {
+    if (status === 'toPay') return '待支付';
     if (status === 'toShip') return '待发货';
     if (status === 'toReceive') return '待收货';
     if (status === 'finished') return '已完成';
@@ -90,6 +95,7 @@ const statusText = (status) => {
 };
 
 const stateClass = (status) => {
+    if (status === 'toPay') return 'state-to-pay';
     if (status === 'toShip') return 'state-to-ship';
     if (status === 'toReceive') return 'state-to-receive';
     if (status === 'finished') return 'state-finished';
@@ -125,8 +131,8 @@ const getOrderList = () => {
         });
 };
 
-const handleDetail = (thingId) => {
-    router.push({ name: 'detail', query: { id: thingId } });
+const handleDetail = (orderId) => {
+    router.push({ name: 'orderDetailView', query: { orderId } });
 };
 
 const handleCancel = (item) => {
@@ -232,6 +238,10 @@ const handleCancel = (item) => {
 
 .state-to-ship {
     color: #b28a1a;
+}
+
+.state-to-pay {
+    color: #d48806;
 }
 
 .state-to-receive {
