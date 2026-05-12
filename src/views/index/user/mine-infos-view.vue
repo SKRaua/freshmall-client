@@ -42,10 +42,6 @@
           <!-- <img :src="SafeIconImage" alt="账号安全" /> -->
           <span>账号安全</span>
         </div>
-        <div class="mine-item flex-view" @click="clickMenu('messageView')">
-          <!-- <img :src="MessageIconImage" alt="系统通知" /> -->
-          <span>系统通知</span>
-        </div>
       </div>
     </div>
   </div>

@@ -19,12 +19,6 @@
       </div>
 
       <div class="right-zone">
-        <a-badge :count="msgData.length" :number-style="{ backgroundColor: '#e2df46', color: '#333' }">
-          <button class="icon-btn" @click="msgVisible = true">
-            <img :src="MessageIcon" alt="消息" />
-          </button>
-        </a-badge>
-
         <template v-if="userStore.user_token">
           <a-dropdown>
             <a class="avatar-link" @click="(e) => e.preventDefault()">
@@ -45,33 +39,16 @@
         <button v-else class="login-btn" @click="goLogin">登录</button>
       </div>
     </div>
-
-    <a-drawer title="系统通知" placement="right" :closable="true" :maskClosable="true" :visible="msgVisible"
-      @close="onClose">
-      <a-spin :spinning="loading" style="min-height: 120px">
-        <div v-if="msgData.length" class="notify-list">
-          <article class="notify-item" v-for="(item, index) in msgData" :key="item.id || index">
-            <h4>{{ item.title }}</h4>
-            <p class="time">{{ item.createTime }}</p>
-            <p>{{ item.content }}</p>
-          </article>
-        </div>
-        <a-empty v-else description="暂无通知" />
-      </a-spin>
-    </a-drawer>
   </header>
 </template>
 
 <script setup>
-import { listApi } from '/@/api/notice';
 import { useUserStore } from '/@/store';
 import Logo from '/@/assets/images/logo.png';
 import SearchIcon from '/@/assets/images/search-icon.svg';
 import AvatarIcon from '/@/assets/images/avatar.jpg';
-import MessageIcon from '/@/assets/images/ic-message.png';
 import { message } from 'ant-design-vue';
 import { detailApi } from '/@/api/user';
-import { getFormatTime } from '/@/utils';
 
 const router = useRouter();
 const route = useRoute();
@@ -79,9 +56,6 @@ const userStore = useUserStore();
 
 const keywordRef = ref();
 
-let loading = ref(false);
-let msgVisible = ref(false);
-let msgData = ref([]);
 let avatarUrl = ref(undefined);
 let selectedMenu = ref('');
 let menuData = ref([
@@ -93,7 +67,6 @@ let menuData = ref([
 ]);
 
 onMounted(() => {
-  getMessageList();
   getUserInfo();
 });
 
@@ -137,25 +110,6 @@ const getUserInfo = () => {
   }
 };
 
-const getMessageList = () => {
-  loading.value = true;
-  listApi({})
-    .then((res) => {
-      if (res.data && Array.isArray(res.data)) {
-        res.data.forEach((item) => {
-          item.createTime = getFormatTime(item.createTime, true);
-        });
-        msgData.value = res.data;
-      } else {
-        msgData.value = [];
-      }
-      loading.value = false;
-    })
-    .catch((err) => {
-      console.log(err);
-      loading.value = false;
-    });
-};
 const search = () => {
   const keyword = keywordRef.value?.value?.trim();
   if (!keyword) {
@@ -178,9 +132,6 @@ const quit = () => {
   userStore.logout().then(() => {
     router.push({ name: 'home' });
   });
-};
-const onClose = () => {
-  msgVisible.value = false;
 };
 
 </script>
@@ -230,14 +181,14 @@ const onClose = () => {
 
   .search-box {
     order: 3;
-    flex: 1 1 0;
-    width: 0 !important;
+    flex: 1 1 calc(100% - 140px);
+    width: auto !important;
     min-width: 0 !important;
     margin-left: 0;
   }
 
   .right-zone {
-    order: 4;
+    order: 3;
     flex: 0 0 auto;
     margin-left: 8px;
     gap: 8px;
@@ -346,21 +297,6 @@ const onClose = () => {
   }
 }
 
-.icon-btn {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: none;
-  background: #f7f8e8;
-  cursor: pointer;
-  display: grid;
-  place-items: center;
-
-  img {
-    width: 18px;
-  }
-}
-
 .login-btn {
   border: none;
   background: #e2df46;
@@ -380,141 +316,5 @@ const onClose = () => {
   height: 34px;
   border-radius: 50%;
   object-fit: cover;
-}
-
-.notify-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.notify-item {
-  padding: 12px;
-  border-radius: 10px;
-  background: #f8f9ee;
-
-  h4 {
-    margin: 0;
-    font-size: 14px;
-    color: #303030;
-  }
-
-  .time {
-    margin: 6px 0;
-    font-size: 12px;
-    color: #909090;
-  }
-
-  p {
-    margin: 0;
-    line-height: 1.5;
-    display: flex;
-    align-items: center;
-
-    img {
-      width: 20px;
-      height: 20px;
-      object-fit: fill;
-    }
-
-    .msg-point {
-      position: absolute;
-      right: -4px;
-      top: 0;
-      min-width: 8px;
-      width: 8px;
-      height: 8px;
-      background: #e2df46;
-      border-radius: 50%;
-    }
-  }
-
-  .self-img {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    vertical-align: middle;
-    cursor: pointer;
-    object-fit: cover;
-  }
-
-  .btn {
-    cursor: pointer;
-    font-size: 14px;
-    color: #eee;
-    border-radius: 16px;
-    text-align: center;
-    width: 66px;
-    height: 30px;
-    line-height: 30px;
-    vertical-align: middle;
-    border: 1px solid #eee;
-  }
-}
-
-.content-list {
-  flex: 1;
-
-  .list-title {
-    color: #152844;
-    font-weight: 600;
-    font-size: 18px;
-    //line-height: 24px;
-    height: 48px;
-    margin-bottom: 4px;
-    border-bottom: 1px solid #cedce4;
-  }
-}
-
-.notification-item {
-  padding-top: 16px;
-
-  .avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    margin-right: 8px;
-  }
-
-  .content-box {
-    -webkit-box-flex: 1;
-    -ms-flex: 1;
-    flex: 1;
-    border-bottom: 1px dashed #e9e9e9;
-    padding: 4px 0 16px;
-  }
-
-  .header {
-    margin-bottom: 12px;
-  }
-
-  .title-txt {
-    color: #315c9e;
-    font-weight: 500;
-    font-size: 14px;
-  }
-
-  .time {
-    color: #a1adc5;
-    font-size: 14px;
-  }
-
-  .head-text {
-    color: #152844;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 22px;
-
-    .name {
-      margin-right: 8px;
-    }
-  }
-
-  .content {
-    margin-top: 4px;
-    color: #484848;
-    font-size: 14px;
-    line-height: 22px;
-  }
 }
 </style>

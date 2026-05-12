@@ -74,7 +74,6 @@
 import { message } from 'ant-design-vue';
 import { useUserStore } from '/@/store';
 import { checkoutApi, deleteApi, listApi, updateCountApi } from '/@/api/cart';
-import { userOrderListApi } from '/@/api/order';
 
 const userStore = useUserStore();
 const router = useRouter();
@@ -154,22 +153,6 @@ const onDelete = (item) => {
         });
 };
 
-const navigateToLatestOrderDetail = () => {
-    const userId = userStore.user_id;
-    return userOrderListApi({ userId, orderStatus: '' })
-        .then((listRes) => {
-            const list = listRes?.data || [];
-            if (list.length > 0 && list[0]?.id) {
-                router.push({ name: 'orderDetailView', query: { orderId: list[0].id } });
-                return;
-            }
-            router.push({ name: 'orderView' });
-        })
-        .catch(() => {
-            router.push({ name: 'orderView' });
-        });
-};
-
 const checkout = () => {
     if (submitting.value) {
         return;
@@ -205,7 +188,7 @@ const checkout = () => {
                 router.push({ name: 'orderDetailView', query: { orderId: firstOrderId } });
                 return;
             }
-            navigateToLatestOrderDetail();
+            router.push({ name: 'orderView' });
         })
         .catch((err) => {
             message.error(err.msg || '下单失败');

@@ -90,11 +90,6 @@ const constantRouterMap = [
                         name: 'securityView',
                         component: () => import('/@/views/index/user/security-view.vue'),
                     },
-                    {
-                        path: 'messageView',
-                        name: 'messageView',
-                        component: () => import('/@/views/index/user/message-view.vue'),
-                    },
                 ],
             },
         ],

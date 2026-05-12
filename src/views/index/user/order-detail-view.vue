@@ -27,7 +27,7 @@
                         <div class="label">订单状态</div>
                         <div class="value">
                             <span :class="['state', stateClass(order.viewStatus)]">{{ statusText(order.viewStatus)
-                                }}</span>
+                            }}</span>
                         </div>
 
                         <div class="label">下单时间</div>
@@ -74,7 +74,7 @@
 
 <script setup>
 import { message } from 'ant-design-vue';
-import { userOrderListApi, updateStatusApi } from '/@/api/order';
+import { payByPaymentNoApi, userOrderListApi, updateStatusApi } from '/@/api/order';
 import { useUserStore } from '/@/store';
 import { getFormatTime } from '/@/utils';
 
@@ -252,10 +252,21 @@ const handlePay = () => {
         return;
     }
 
-    updateStatusApi({ id: order.value.id, status: '1', payTime: Date.now() })
-        .then(() => {
-            message.success(`已使用${payOptions.find((i) => i.value === selectedPayChannel.value)?.label || '所选方式'}付款`);
-            loadOrder();
+    const payLabel = payOptions.find((i) => i.value === selectedPayChannel.value)?.label || '所选方式';
+    const paymentNo = String(order.value.paymentNo || '').trim();
+    const payRequest = paymentNo
+        ? payByPaymentNoApi({ paymentNo, userId: userStore.user_id })
+        : updateStatusApi({ id: order.value.id, status: '1', payTime: Date.now() });
+
+    payRequest
+        .then((res) => {
+            const paidCount = Number(res?.data?.paidCount || 0);
+            if (paidCount > 1) {
+                message.success(`已使用${payLabel}完成${paidCount}笔订单支付`);
+            } else {
+                message.success(`已使用${payLabel}付款`);
+            }
+            router.push({ name: 'orderView' });
         })
         .catch((err) => {
             message.error(err.msg || '付款失败');
